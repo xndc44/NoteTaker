@@ -7,9 +7,13 @@ import lombok.*;
 @Entity
 @Table(name = "useraccount")
 public class UserAccount {
+
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int userId;
     private String username;
     private String password;
 
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
+    private Notepad notepad;
 }

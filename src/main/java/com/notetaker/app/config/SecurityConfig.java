@@ -35,12 +35,13 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register", "/login", "/css/**").permitAll()
-                        .requestMatchers("/notepad").authenticated()
+                        .requestMatchers("/notepad/**").authenticated()
                 )
                 .formLogin(httpForm ->
                         httpForm.loginPage("/login")
                                 .defaultSuccessUrl("/notepad", true)
-                                .permitAll())
+                                .permitAll()
+                )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login")
                 );

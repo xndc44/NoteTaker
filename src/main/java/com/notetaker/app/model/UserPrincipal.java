@@ -32,6 +32,10 @@ public class UserPrincipal implements UserDetails {
         return this.userAccount.getUsername();
     }
 
+    public long getNotepadId() {
+        return this.userAccount.getNotepad().getNotepadId();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

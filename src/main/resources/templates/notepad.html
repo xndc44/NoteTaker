@@ -5,6 +5,26 @@
     <title>Notepad</title>
 </head>
 <body>
-    <h1>User's Notepad</h1>
+<h1 th:text="${username} + '\'s Notepad'"></h1>
+
+    <div th:if="${notes.size() == 0}">
+        <p>You have no notes yet.</p>
+    </div>
+
+    <ul>
+        <li th:each="note : ${notes}">
+            <a th:href="@{/notepad/{id}(id=${note.noteId})}" th:text="${note.title}"></a>
+        </li>
+    </ul>
+
+    <form th:action="@{/notepad}" method="post">
+        <input type="text" name="title" placeholder="New note name" required>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Create New Note</button>
+    </form>
+
+
+<p th:if="${message}" th:text="${message}"></p>
+
 </body>
 </html>
