@@ -28,13 +28,27 @@ public class NoteTakerController {
     @Autowired
     private NotepadService notepadService;
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
+    @GetMapping("/")
+    public String redirectHome() {
+        return "redirect:/home";
     }
 
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/login")
+    public String login(@AuthenticationPrincipal UserPrincipal principal) {
+        if (principal != null) {
+            return "redirect:/notepad"; // already logged in
+        }
+        return "login"; // show login page
+    }
+
+
     @GetMapping("/register")
-    public String showRegistrationForm() {
+    public String showRegistrationForm(@AuthenticationPrincipal UserPrincipal principal) {
         return "register";
     }
 

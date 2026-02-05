@@ -8,6 +8,13 @@
 <body>
 <h1 th:text="${username} + '\'s Notepad'"></h1>
 
+<a th:href="@{/notepad}">Back to Notepad</a>
+
+<form th:action="@{/logout}" method="post" style="display:inline">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Logout</button>
+</form>
+
 <form th:action="@{/notepad/{id}(id=${note.noteId})}" method="post">
     <input type="text" name="title" th:value="${note.title}" required />
     <div id="editor" th:utext="${note.content}" style="height:300px;"></div>

@@ -7,6 +7,12 @@
 <body>
 <h1 th:text="${username} + '\'s Notepad'"></h1>
 
+    <!-- Logout button -->
+    <form th:action="@{/logout}" method="post" style="display:inline">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Logout</button>
+    </form>
+
     <div th:if="${notes.size() == 0}">
         <p>You have no notes yet.</p>
     </div>

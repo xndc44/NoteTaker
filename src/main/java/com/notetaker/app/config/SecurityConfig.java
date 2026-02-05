@@ -34,7 +34,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login", "/css/**").permitAll()
+                        .requestMatchers("/", "/home", "/register", "/login", "/css/**").permitAll()
                         .requestMatchers("/notepad/**").authenticated()
                 )
                 .formLogin(httpForm ->
@@ -43,7 +43,11 @@ public class SecurityConfig {
                                 .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login")
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/home")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
                 );
         return http.build();
     }
