@@ -81,7 +81,7 @@ public class NoteTakerController {
     }
 
     @PostMapping("/notepad")
-    public String createNote(Model model, @RequestParam String title, @AuthenticationPrincipal UserPrincipal principal) {
+    public String createNote(Model model, @RequestParam String title, @AuthenticationPrincipal UserPrincipal principal, RedirectAttributes redirectAttributes) {
         Notepad notepad = notepadService.findByNotepadId(principal.getNotepadId());
         Note note = new Note();
         note.setTitle(title);
@@ -89,16 +89,42 @@ public class NoteTakerController {
         noteService.saveNote(note);
         model.addAttribute("username", principal.getUsername());
         model.addAttribute("notes", notepad.getNotes());
+        redirectAttributes.addFlashAttribute("success", "Note created successfully!");
         return "redirect:/notepad";
     }
 
     @GetMapping("/notepad/{id}")
-    public String editNote(@PathVariable Long id, Model model, @AuthenticationPrincipal UserPrincipal principal) {
+    public String getNote(@PathVariable Long id, Model model, @AuthenticationPrincipal UserPrincipal principal) {
         Note note = noteService.findByNoteId(id);
         model.addAttribute("note", note);
         model.addAttribute("username", principal.getUsername());
         return "note";
     }
+
+    @DeleteMapping("/notepad/{id}")
+    public String deleteNote(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserPrincipal principal,
+            RedirectAttributes redirectAttributes) {
+
+        Notepad notepad = notepadService.findByNotepadId(principal.getNotepadId());
+        if (notepad == null) {
+            redirectAttributes.addFlashAttribute("error", "Notepad not found!");
+            return "redirect:/notepad";
+        }
+
+        boolean removedFromList = notepad.getNotes().removeIf(note -> note.getNoteId() == id);
+        noteService.deleteByNoteId(id);
+
+        if (removedFromList) {
+            redirectAttributes.addFlashAttribute("success", "Note deleted successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("warning", "Note was not found in your notepad, but deletion attempted.");
+        }
+
+        return "redirect:/notepad";
+    }
+
 
     @PostMapping("/notepad/{id}")
     public String saveNote(@PathVariable Long id, @RequestParam String title,
@@ -113,4 +139,5 @@ public class NoteTakerController {
         redirectAttributes.addFlashAttribute("message", "Note saved successfully!");
         return "redirect:/notepad/" + id;
     }
+
 }
