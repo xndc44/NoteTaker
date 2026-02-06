@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
+<div class="container">
     <h1>WELCOME TO THE NOTE TAKER APP</h1>
     <h1>If you have account please press <a th:href="@{/login}">HERE</a> to login<br>
         otherwise please press here to sign up! <a th:href="@{/register}">Create an account</a>
     </h1>
+</div>
 </body>
 </html>

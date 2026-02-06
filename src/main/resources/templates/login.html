@@ -3,22 +3,25 @@
  <head>
      <meta charset="UTF-8">
      <title>Login</title>
+     <link rel="stylesheet" th:href="@{/styles.css}">
  </head>
- <body>
-     <form th:action="@{/login}" method="post">
-         <div>
-             <label>Username:</label>
-             <input type="text" name="username" required />
-         </div>
-         <div>
-             <label>Password:</label>
-             <input type="password" name="password" required />
-         </div>
-         <button type="submit">Log In</button>
-         <div th:if="${param.error}" style="color: red;">
-             Invalid username or password.
-         </div>
-     </form>
-     <a th:href="@{/register}">Create an account</a>
+    <body>
+    <div class="container">
+        <form th:action="@{/login}" method="post">
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username" required />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" required />
+            </div>
+            <button type="submit">Log In</button>
+            <div th:if="${param.error}" style="color: red;">
+                Invalid username or password.
+            </div>
+        </form>
+        <a th:href="@{/register}">Create an account</a>
+    </div>
  </body>
  </html>
